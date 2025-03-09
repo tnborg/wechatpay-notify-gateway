@@ -1,0 +1,10 @@
+debug: false
+address: ":3000"
+forwards:
+  - "https://api.example.com/pay/notify"
+wechat:
+  apiV3Key: "abcdef1234567890abcdef1234567890"
+  publicKeyID: "1234567890abcdef1234567890abcdef"
+  publicKey: |
+    -----BEGIN PUBLIC KEY-----
+    -----END PUBLIC KEY-----
