@@ -1,4 +1,4 @@
-debug: false
+debug: true
 address: ":3000"
 forwards:
   - "https://api.example.com/pay/notify"

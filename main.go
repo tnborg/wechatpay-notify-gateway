@@ -65,17 +65,43 @@ func main() {
 			})
 		}
 
+		if config.Bool("debug") {
+			log.Printf("New transaction: %s", transaction.String())
+		}
+
 		// 转发请求
 		if _, err = url.ParseRequestURI(*transaction.Attach); err == nil {
-			if err := forwardRequest(client, c, *transaction.Attach); err != nil {
-				return err
+			if config.Bool("debug") {
+				log.Printf("Transaction has attach, forwarding to %s", *transaction.Attach)
+			}
+			if err = forwardRequest(client, c, *transaction.Attach); err != nil {
+				if config.Bool("debug") {
+					log.Printf("Failed to forward request: %v", err)
+				}
+				return c.Res().Status(fiber.StatusBadGateway).JSON(fiber.Map{
+					"code":    "FAIL",
+					"message": err.Error(),
+				})
 			}
 		} else {
 			for _, forward := range forwards {
-				if err := forwardRequest(client, c, forward); err != nil {
-					return err
+				if config.Bool("debug") {
+					log.Printf("Transaction has no attach, forwarding to %s", forward)
+				}
+				if err = forwardRequest(client, c, forward); err != nil {
+					if config.Bool("debug") {
+						log.Printf("Failed to forward request: %v", err)
+					}
+					return c.Res().Status(fiber.StatusBadGateway).JSON(fiber.Map{
+						"code":    "FAIL",
+						"message": err.Error(),
+					})
 				}
 			}
+		}
+
+		if config.Bool("debug") {
+			log.Printf("Transaction forwarded successfully")
 		}
 
 		return c.SendStatus(fiber.StatusNoContent)
@@ -90,11 +116,11 @@ func main() {
 	}
 }
 
-func forwardRequest(client *resty.Client, c fiber.Ctx, targetURL string) error {
+func forwardRequest(client *resty.Client, c fiber.Ctx, target string) error {
 	request := client.R().SetBody(c.Body())
 	request.Header = c.GetReqHeaders()
 
-	resp, err := request.Post(targetURL)
+	resp, err := request.Post(target)
 	if err != nil {
 		return c.Res().Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"code":    "FAIL",
