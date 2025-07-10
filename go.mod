@@ -7,7 +7,7 @@ require (
 	github.com/gofiber/fiber/v3 v3.0.0-beta.4.0.20250307143322-600ebd95ce74
 	github.com/knadh/koanf/parsers/yaml v0.1.0
 	github.com/knadh/koanf/providers/file v1.2.0
-	github.com/knadh/koanf/v2 v2.2.1
+	github.com/knadh/koanf/v2 v2.2.2
 	github.com/wechatpay-apiv3/wechatpay-go v0.2.21
 )
 
@@ -15,7 +15,7 @@ require (
 	github.com/andybalholm/brotli v1.1.1 // indirect
 	github.com/fsnotify/fsnotify v1.9.0 // indirect
 	github.com/fxamacker/cbor/v2 v2.7.0 // indirect
-	github.com/go-viper/mapstructure/v2 v2.2.1 // indirect
+	github.com/go-viper/mapstructure/v2 v2.3.0 // indirect
 	github.com/gofiber/schema v1.3.0 // indirect
 	github.com/gofiber/utils/v2 v2.0.0-beta.7 // indirect
 	github.com/google/uuid v1.6.0 // indirect
